@@ -1,0 +1,37 @@
+name: Test Custom GHA Agent
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-agent:
+    runs-on: ubuntu-latest
+
+    container:
+      image: ghcr.io/sk-sohel01/gha-agent:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Show kubectl version
+        run: kubectl version --client
+
+      - name: Show helm version
+        run: helm version
+
+      - name: Show AWS CLI version
+        run: aws --version
+
+      - name: Show Flux CLI version
+        run: flux --version
+
+      - name: Show Python version
+        run: python3 --version
+
+      - name: Show Git version
+        run: git --version
+
